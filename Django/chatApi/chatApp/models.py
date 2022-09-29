@@ -1,7 +1,7 @@
 from django.dispatch import receiver
-from djongo import models
+# from djongo import models
 from django.utils import timezone
-
+from django.db import models
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -11,11 +11,11 @@ class User(models.Model):
     Password = models.CharField(max_length=30, null=False)
     Email=models.CharField(max_length=80, null=False)
     Name = models.CharField(max_length=25, null=True)
-    ProfilePicture=models.TextField(null=True)
+    ProfilePicture=models.TextField(null=True,)
 
     Requests = models.ManyToManyField("self", through="RequestFriendship", symmetrical= False, related_name="RequestToUser") #cambiar a foreign key
     Friends = models.ManyToManyField("self", through="Friendship", symmetrical = True, related_name="FriendUser") 
-    Messages = models.ManyToManyField("Message", symmetrical = False, related_name = "MessageUser") #cambiar a foreign key
+    Messages = models.ManyToManyField("Message", symmetrical = False, related_name = "MessageUser", blank = True) #cambiar a foreign key
 
     def getRequestsUsers(self):
         return self.Requests.all()

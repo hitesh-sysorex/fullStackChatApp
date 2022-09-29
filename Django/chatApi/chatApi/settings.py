@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-inmq0da%)_sap1q^$(8so%o%wthkuq=x=-s1-2cmdmh2hds#=a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["10.0.2.2", "127.0.0.1"]
+ALLOWED_HOSTS = ["10.0.2.2", "127.0.0.1", "*",]
 
 
 # Application definition
@@ -81,27 +81,45 @@ TEMPLATES = [
 WSGI_APPLICATION = 'chatApi.wsgi.application'
 ASGI_APPLICATION = "chatApi.asgi.application"
 
-redis_host = os.environ.get('REDIS_HOST', 'localhost') #cambiar para heroku
+# redis_host = os.environ.get('REDIS_HOST', 'localhost') #cambiar para heroku
+# CHANNEL_LAYERS = {
+#     'default' : {
+#         'BACKEND' : 'channels.layers.InMemoryChannelLayer', #cambiar a redis, esto solo sirve de prueba
+#     }
+# }
+
 CHANNEL_LAYERS = {
-    'default' : {
-        'BACKEND' : 'channels.layers.InMemoryChannelLayer', #cambiar a redis, esto solo sirve de prueba
-    }
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
 }
+
+
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'CLIENT': {
+#             "host" : "mongodb+srv://****",
+#             "name" : "chatDatabase",
+#             "authMechanism" : "SCRAM-SHA-1"
+#         },
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'CLIENT': {
-            "host" : "mongodb+srv://****",
-            "name" : "chatDatabase",
-            "authMechanism" : "SCRAM-SHA-1"
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME'  :   BASE_DIR /'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

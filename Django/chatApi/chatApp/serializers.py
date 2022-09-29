@@ -1,5 +1,5 @@
 from django.dispatch import receiver
-from numpy import True_, source
+# from numpy import True_, source
 from rest_framework import serializers
 from chatApp.models import *
 

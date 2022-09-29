@@ -27,6 +27,7 @@ def returnListWithRequiredUserInformation(returnDataDict, category):
 def getUser(request, Username=None, Password=None):
     if request.method=="GET":
         try:
+         
             user=User.objects.get(Username=Username, Password=Password)
         except User.DoesNotExist:
             raise BadRequest("Invalid...")

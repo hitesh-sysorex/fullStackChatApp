@@ -1,4 +1,4 @@
-from bottle_websocket import websocket
+# from bottle_websocket import websocket
 from django.urls import path
 from . import consumers
 
